@@ -16,4 +16,4 @@ jobs:
         run: npm install @redocly/cli@v1-archive -g
 
       - name: Bundle OpenAPI YAML
-        run: redocly bundle openapi/openapi.yaml --output dist/openapi-bundled.yaml
+        run: redocly bundle openapi/openapi.yaml --output docs/openapi-bundled.yaml

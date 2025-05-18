@@ -14,23 +14,27 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v3
 
+      - name: Configure Git
+        env:
+          TOKEN: ${{ secrets.PAT_TOKEN }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git remote set-url origin https://x-access-token:${TOKEN}@github.com/Bravos-Team/Steak-API-Document.git
+
+      - name: Pull code
+        run: |
+          git reset --hard
+          git pull origin master --rebase
+
       - name: Install redocly
         run: npm install @redocly/cli@v1-archive -g
 
       - name: Bundle OpenAPI YAML
         run: redocly bundle openapi/openapi.yaml --output docs/openapi-bundled.yaml
 
-      - name: Configure Git
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-
       - name: Push Changes
-        env:
-          TOKEN: ${{ secrets.PAT_TOKEN }}
         run: |
-          git remote set-url origin https://x-access-token:${TOKEN}@github.com/Bravos-Team/Steak-API-Document.git
-          git pull --rebase
           git add docs/
           git commit -m 'auto-build-bundle'
-          git push origin HEAD:main
+          git push origin HEAD:master

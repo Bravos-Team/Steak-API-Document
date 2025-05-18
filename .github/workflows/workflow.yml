@@ -17,3 +17,11 @@ jobs:
 
       - name: Bundle OpenAPI YAML
         run: redocly bundle openapi/openapi.yaml --output docs/openapi-bundled.yaml
+
+      - name: Push to same branch
+        run: |
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git add docs/
+          git commit -m "CI: update docs" || echo "No changes"
+          git push https://x-access-token:${{ secrets.GH_PAT }}@github.com/${{ github.repository }} HEAD:${{ github.ref_name }}

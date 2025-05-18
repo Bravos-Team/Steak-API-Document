@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>My API Docs</title>
+    <link rel="stylesheet" href="node_modules/swagger-ui-dist/swagger-ui.css">
+    <style>
+        body { background: #f0f2f5; }
+        .swagger-ui .info h1 { color: #28a745; }
+    </style>
+</head>
+<body>
+<div id="swagger-ui"></div>
+<script src="node_modules/swagger-ui-dist/swagger-ui-bundle.js"></script>
+<script src="node_modules/swagger-ui-dist/swagger-ui-standalone-preset.js"></script>
+<script>
+    SwaggerUIBundle({
+        url: '../dist/openapi-bundled.yaml',
+        dom_id: '#swagger-ui',
+        presets: [
+            SwaggerUIBundle.presets.apis,
+            SwaggerUIBundle.SwaggerUIStandalonePreset
+        ],
+        displayOperationId: true,
+        docExpansion: 'list'
+    });
+</script>
+</body>
+</html>

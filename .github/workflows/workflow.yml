@@ -1,0 +1,26 @@
+name: Build & Deploy Swagger Docs
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Install redocly
+        run: npm install @redocly/cli@v1-archive -g
+
+      - name: Bundle OpenAPI YAML
+        run: redocly bundle openapi/openapi.yaml --output dist/openapi-bundled.yaml
+
+      - name: Push to same branch
+        run: |
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git commit -m "CI: update docs" || echo "No changes"
+          git push

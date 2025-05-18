@@ -29,4 +29,6 @@ jobs:
           TOKEN: ${{ secrets.PAT_TOKEN }}
         run: |
           git remote set-url origin https://x-access-token:${TOKEN}@github.com/Bravos-Team/Steak-API-Document.git
+          git add docs/
+          git commit -m 'auto-build-bundle'
           git push origin HEAD:main

@@ -192,7 +192,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "/components.yaml/#/components/schemas/UsernameLoginRequest"
+              $ref: "./components.yaml/#/components/schemas/UsernameLoginRequest"
       responses:
         200:
           description: Đăng nhập thành công, token và refreshToken được lưu vào cookie set full cờ
@@ -221,7 +221,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "/components.yaml/#/components/schemas/EmailLoginRequest"
+              $ref: "./components.yaml/#/components/schemas/EmailLoginRequest"
       responses:
         200:
           description: Đăng nhập thành công, token và refreshToken được lưu vào cookie set full cờ
@@ -238,4 +238,4 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "./components.yaml/#/components/schemas/Error"
+                $ref: "./components.yaml#/components/schemas/Error"

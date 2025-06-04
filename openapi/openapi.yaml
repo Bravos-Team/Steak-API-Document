@@ -181,3 +181,61 @@ paths:
               schema:
                 $ref: "./components.yaml/#/components/schemas/Error"
 
+
+  /api/v1/admin/auth/username-login:
+    post:
+      tags:
+        - admin-auth
+      summary: Đăng nhập vào tài khoản quản trị
+      description: Đăng nhập vào tải khoản quản trị bằng username
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "/components.yaml/#/components/schemas/UsernameLoginRequest"
+      responses:
+        200:
+          description: Đăng nhập thành công, token và refreshToken được lưu vào cookie set full cờ
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  username:
+                    type: string
+                    example: admin123
+        default:
+          description: Đăng nhập thất bại
+          content:
+            application/json:
+              schema:
+                $ref: "./components.yaml/#/components/schemas/Error"
+
+  /api/v1/admin/auth/email-login:
+    post:
+      tags:
+        - admin-auth
+      summary: Đăng nhập vào tài khoản quản trị
+      description: Đăng nhập vào tải khoản quản trị bằng email
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "/components.yaml/#/components/schemas/EmailLoginRequest"
+      responses:
+        200:
+          description: Đăng nhập thành công, token và refreshToken được lưu vào cookie set full cờ
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  username:
+                    type: string
+                    example: admin123@gmail.com
+        default:
+          description: Đăng nhập thất bại
+          content:
+            application/json:
+              schema:
+                $ref: "./components.yaml/#/components/schemas/Error"

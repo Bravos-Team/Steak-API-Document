@@ -299,7 +299,7 @@ paths:
                 $ref: "./components.yaml/#/components/schemas/Error"
 
   /api/v1/dev/upload/delete-image:
-    post:
+    delete:
       tags:
         - publisher-upload
       summary: Xoá ảnh đã upload
@@ -320,7 +320,7 @@ paths:
                 $ref: "./components.yaml/#/components/schemas/Error"
 
   /api/v1/dev/upload/delete-images:
-    post:
+    delete:
       tags:
         - publisher-upload
       summary: Xoá nhiều ảnh đã upload

@@ -297,3 +297,47 @@ paths:
             application/json:
               schema:
                 $ref: "./components.yaml/#/components/schemas/Error"
+
+  /api/v1/dev/upload/delete-image:
+    post:
+      tags:
+        - publisher-upload
+      summary: Xoá ảnh đã upload
+      description: Xoá ảnh đã upload trên S3
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "./components.yaml/#/components/schemas/ImageDeleteRequest"
+      responses:
+        200:
+          description: Xoá ảnh thành công
+        default:
+          description: Lỗi khác
+          content:
+            application/json:
+              schema:
+                $ref: "./components.yaml/#/components/schemas/Error"
+
+  /api/v1/dev/upload/delete-images:
+    post:
+      tags:
+        - publisher-upload
+      summary: Xoá nhiều ảnh đã upload
+      description: Xoá nhiều ảnh đã upload trên S3
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: "./components.yaml/#/components/schemas/ImageDeleteRequest"
+      responses:
+        200:
+          description: Xoá ảnh thành công
+        default:
+          description: Lỗi khác
+          content:
+            application/json:
+              schema:
+                $ref: "./components.yaml/#/components/schemas/Error"

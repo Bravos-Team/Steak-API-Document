@@ -102,6 +102,25 @@ components:
         masterPassword:
           type: string
           example: 1982912@kja@AA
+    ImageUploadPresignRequest:
+      type: object
+      properties:
+        fileName:
+          type: string
+          example: 1q2w3e4r5t6y7u8i9o0p.jpg
+        fileSize:
+          type: long
+          example: 1024000 (bytes)
+
+    ImageUploadPresignResponse:
+      type: object
+      properties:
+          fileName:
+              type: string
+              example: 1q2w3e4r5t6y7u8i9o0p.jpg
+          signedUrl:
+            type: string
+            example: https://steak.io.vn/upload/1q2w3e4r5t6y7u8i9o0p.jpg
 
 
 

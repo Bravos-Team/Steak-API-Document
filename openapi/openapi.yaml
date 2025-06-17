@@ -14,6 +14,8 @@ tags:
     description: Liên quan đến các chức năng đăng ký, đăng nhập, xác thực, vv... của nhà phát hành
   - name: admin-auth
     description: Liên quan đến các chức năng đăng nhập, xác thực, vv... của quản trị viên
+  - name: publisher-upload
+    description: Upload tài nguyên cho publisher
 paths:
   /api/v1/user/auth/register:
     post:
@@ -239,3 +241,59 @@ paths:
             application/json:
               schema:
                 $ref: "./components.yaml#/components/schemas/Error"
+
+  /api/v1/dev/upload/presigned-image-url:
+    post:
+      tags:
+        - publisher-upload
+      summary: Lấy URL để upload ảnh
+      description: Lấy URL để upload ảnh cho game
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "./components.yaml/#/components/schemas/ImageUploadPresignRequest"
+      responses:
+        200:
+          description: Trả về URL để upload ảnh
+          content:
+            application/json:
+              schema:
+                $ref: "./components.yaml/#/components/schemas/ImageUploadPresignResponse"
+        default:
+          description: Lỗi khác
+          content:
+            application/json:
+              schema:
+                $ref: "./components.yaml/#/components/schemas/Error"
+  /api/v1/dev/upload/presigned-image-urls:
+    post:
+      tags:
+        - publisher-upload
+      summary: Lấy URL để upload nhiều ảnh
+      description: Lấy URL để upload nhiều ảnh cho game
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: "./components.yaml/#/components/schemas/ImageUploadPresignRequest"
+      responses:
+        200:
+          description: Trả về URL để upload ảnh
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  urls:
+                    type: array
+                    items:
+                      $ref: "./components.yaml/#/components/schemas/ImageUploadPresignResponse"
+        default:
+          description: Lỗi khác
+          content:
+            application/json:
+              schema:
+                $ref: "./components.yaml/#/components/schemas/Error"

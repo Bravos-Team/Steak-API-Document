@@ -22,8 +22,13 @@
             SwaggerUIBundle.SwaggerUIStandalonePreset
         ],
         displayOperationId: true,
-        docExpansion: 'list'
+        docExpansion: 'list',
+        requestInterceptor: (req) => {
+            req.credentials = 'include'; // ← chỗ này quan trọng
+            return req;
+        }
     });
 </script>
+
 </body>
 </html>

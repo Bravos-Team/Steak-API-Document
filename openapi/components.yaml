@@ -129,3 +129,81 @@ components:
           type: string
           example: https://ccdn.steak.io.vn/1q2w3e4r5t6y7u8i9o0p.jpg
 
+    GameUploadPresignedRequest:
+      type: object
+      properties:
+        fileName:
+          type: string
+          example: game-part-1.bin
+        fileSize:
+          type: long
+          example: 104857600
+        partNumber:
+          type: integer
+          example: 1
+
+    PresignedUrlResponse:
+      type: object
+      properties:
+        fileName:
+          type: string
+          example: game-part-1.bin
+        signedUrl:
+          type: string
+          example: https://steak.io.vn/upload/game-part-1.bin
+
+    RecreatePresignedUrlRequest:
+      type: object
+      properties:
+        fileName:
+          type: string
+          example: game-part-1.bin
+        uploadId:
+          type: string
+          example: 1234567890abcdef
+
+    CompleteMultipartRequest:
+      type: object
+      properties:
+        fileName:
+          type: string
+          example: game-full.bin
+        uploadId:
+          type: string
+          example: 1234567890abcdef
+        parts:
+          type: array
+          items:
+            type: object
+            properties:
+              partNumber:
+                type: integer
+                example: 1
+              eTag:
+                type: string
+                example: "etag-part-1"
+
+    SaveProjectRequest:
+      type: object
+      properties:
+        projectId:
+          type: integer
+          example: 900000000000001
+        name:
+          type: string
+          example: My Awesome Game
+        description:
+          type: string
+          example: Game mô tả
+        # ...other fields...
+
+    UpdatePreBuildRequest:
+      type: object
+      properties:
+        projectId:
+          type: integer
+          example: 900000000000001
+        buildVersion:
+          type: string
+          example: v1.0.0
+        # ...other fields...

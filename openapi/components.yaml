@@ -186,24 +186,122 @@ components:
     SaveProjectRequest:
       type: object
       properties:
-        projectId:
+        id:
           type: integer
           example: 900000000000001
         name:
           type: string
           example: My Awesome Game
-        description:
+        price:
+          type: number
+          format: double
+          example: 19.99
+        developerTeam:
+          type: array
+          items:
+            type: string
+          example: ["Alice", "Bob"]
+        region:
           type: string
-          example: Game mô tả
-        # ...other fields...
-
+          example: US
+        thumbnail:
+          type: string
+          example: https://cdn.steak.io.vn/thumbnail.jpg
+        media:
+          type: array
+          items:
+            $ref: '#/components/schemas/Media'
+        shortDescription:
+          type: string
+          example: Short game description
+        longDescription:
+          type: string
+          example: Long game description
+        platform:
+          type: array
+          items:
+            type: string
+          example: ["Windows", "Mac"]
+        systemRequirements:
+          $ref: '#/components/schemas/SystemRequirements'
+        internetConnection:
+          type: boolean
+          example: true
+        languageSupported:
+          type: array
+          items:
+            type: string
+          example: ["en", "vi"]
+        estimatedReleaseDate:
+          type: string
+          format: date-time
+          example: 2024-12-31T00:00:00Z
+    Media:
+      type: object
+      properties:
+        type:
+          type: string
+          example: image
+        url:
+          type: string
+          example: https://cdn.steak.io.vn/media.jpg
+    SystemRequirements:
+      type: object
+      properties:
+        minimum:
+          $ref: '#/components/schemas/Requirement'
+        recommend:
+          $ref: '#/components/schemas/Requirement'
+    Requirement:
+      type: object
+      properties:
+        # Define fields as needed, e.g.:
+        cpu:
+          type: string
+          example: Intel i5
+        ram:
+          type: string
+          example: 8GB
+        gpu:
+          type: string
+          example: GTX 1060
+        storage:
+          type: string
+          example: 50GB
+    ReviewerReviewReplyRequest:
+      type: object
+      properties:
+        submissionId:
+          type: integer
+          example: 123456789
+        status:
+          type: string
+          enum: [PENDING_REVIEW, ACCEPTED, REJECTED]
+          example: ACCEPTED
+        content:
+          type: string
+          example: "Game meets all requirements."
+        attachments:
+          type: array
+          items:
+            type: string
+          example: ["https://cdn.steak.io.vn/review-attachment1.jpg"]
     UpdatePreBuildRequest:
       type: object
       properties:
         projectId:
           type: integer
           example: 900000000000001
-        buildVersion:
+        versionName:
           type: string
-          example: v1.0.0
-        # ...other fields...
+          example: "v1.0.0"
+        execPath:
+          type: string
+          example: "bin/steak.exe"
+        downloadUrl:
+          type: string
+          format: uri
+          example: "https://cdn.steak.io.vn/game/steak-v1.0.0.zip"
+        checksum:
+          type: string
+          example: "d41d8cd98f00b204e9800998ecf8427e"

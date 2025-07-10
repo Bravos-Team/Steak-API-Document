@@ -110,7 +110,7 @@ components:
           example: 1q2w3e4r5t6y7u8i9o0p.jpg
         fileSize:
           type: long
-          example: 1024000 (bytes)
+          example: 1024000
 
     ImageUploadPresignResponse:
       type: object
@@ -305,3 +305,12 @@ components:
         checksum:
           type: string
           example: "d41d8cd98f00b204e9800998ecf8427e"
+    RefreshTokenRequest:
+      type: object
+      properties:
+        deviceId:
+          type: string
+          example: "eyJhbGciOi"
+        deviceInfo:
+          type: string
+          example: "ubuntu chrome browser"

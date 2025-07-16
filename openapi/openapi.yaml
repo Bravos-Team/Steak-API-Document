@@ -803,7 +803,7 @@ paths:
             application/json:
               schema:
                 $ref: "./components.yaml#/components/schemas/Error"
-  /api/v1/user/library/my-games:
+  /api/v1/store/private/library/my-games:
     get:
       tags:
         - user-library

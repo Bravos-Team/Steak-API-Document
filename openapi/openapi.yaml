@@ -23,6 +23,10 @@ tags:
     description: Quản lý project game của publisher
   - name: user-library
     description: Quản lý thư viện game của người dùng
+  - name: cart
+    description: Quản lý giỏ hàng của người dùng
+  - name: wishlist
+    description: Quản lý wishlist của người dùng
 paths:
   /api/v1/user/auth/register:
     post:
@@ -811,3 +815,201 @@ paths:
       responses:
         200:
             description: Danh sách game đã mua
+  /api/v1/store/public/cart/add:
+    post:
+      tags:
+        - cart
+      summary: Thêm game vào giỏ hàng
+      description: Thêm game vào giỏ hàng của người dùng
+      parameters:
+        - name: gameId
+          in: query
+          required: true
+          schema:
+            type: integer
+      responses:
+        200:
+          description: Thêm game vào giỏ hàng thành công
+        default:
+          description: Lỗi khác
+          content:
+            application/json:
+              schema:
+                $ref: "./components.yaml/#/components/schemas/Error"
+
+  /api/v1/store/public/cart/remove:
+    delete:
+      tags:
+        - cart
+      summary: Xoá game khỏi giỏ hàng
+      description: Xoá game khỏi giỏ hàng của người dùng
+      parameters:
+        - name: gameId
+          in: query
+          required: true
+          schema:
+            type: integer
+      responses:
+        200:
+          description: Xoá game khỏi giỏ hàng thành công
+        default:
+          description: Lỗi khác
+          content:
+            application/json:
+              schema:
+                $ref: "./components.yaml/#/components/schemas/Error"
+  /api/v1/store/public/cart/me:
+    get:
+      tags:
+        - cart
+      summary: Lấy giỏ hàng của người dùng
+      description: Lấy danh sách game trong giỏ hàng của người dùng
+      responses:
+        200:
+          description: Danh sách game trong giỏ hàng
+          content:
+            application/json:
+              schema:
+                $ref: "./components.yaml/#/components/schemas/CartResponse"
+        default:
+          description: Lỗi khác
+          content:
+            application/json:
+              schema:
+                $ref: "./components.yaml/#/components/schemas/Error"
+
+  /api/v1/store/public/cart/clear:
+    delete:
+      tags:
+        - cart
+      summary: Xoá toàn bộ giỏ hàng
+      description: Xoá toàn bộ giỏ hàng của người dùng
+      responses:
+        200:
+          description: Xoá giỏ hàng thành công
+        default:
+          description: Lỗi khác
+          content:
+            application/json:
+              schema:
+                $ref: "./components.yaml/#/components/schemas/Error"
+
+  /api/v1/store/public/cart/move-to-wishlist:
+    post:
+      tags:
+        - cart
+      summary: Di chuyển game từ giỏ hàng sang wishlist
+      description: Di chuyển game từ giỏ hàng sang wishlist của người dùng
+      parameters:
+        - name: gameId
+          in: query
+          required: true
+          schema:
+            type: integer
+      responses:
+        200:
+          description: Di chuyển game thành công
+        default:
+          description: Lỗi khác
+          content:
+            application/json:
+              schema:
+                $ref: "./components.yaml/#/components/schemas/Error"
+  /api/v1/store/private/wishlist/add:
+    post:
+      tags:
+        - wishlist
+      summary: Thêm game vào wishlist
+      description: Thêm game vào wishlist của người dùng
+      parameters:
+        - name: gameId
+          in: query
+          required: true
+          schema:
+            type: integer
+      responses:
+        200:
+          description: Thêm game vào wishlist thành công
+        default:
+          description: Lỗi khác
+          content:
+            application/json:
+              schema:
+                $ref: "./components.yaml/#/components/schemas/Error"
+  /api/v1/store/private/wishlist/remove:
+    delete:
+      tags:
+        - wishlist
+      summary: Xoá game khỏi wishlist
+      description: Xoá game khỏi wishlist của người dùng
+      parameters:
+        - name: gameId
+          in: query
+          required: true
+          schema:
+            type: integer
+      responses:
+        200:
+          description: Xoá game khỏi wishlist thành công
+        default:
+          description: Lỗi khác
+          content:
+            application/json:
+              schema:
+                $ref: "./components.yaml/#/components/schemas/Error"
+  /api/v1/store/private/wishlist/me:
+    get:
+      tags:
+        - wishlist
+      summary: Lấy wishlist của người dùng
+      description: Lấy danh sách game trong wishlist của người dùng
+      responses:
+        200:
+          description: Danh sách game trong wishlist
+          content:
+            application/json:
+              schema:
+                $ref: "./components.yaml/#/components/schemas/WishlistResponse"
+        default:
+          description: Lỗi khác
+          content:
+            application/json:
+              schema:
+                $ref: "./components.yaml/#/components/schemas/Error"
+  /api/v1/store/private/wishlist/clear:
+    delete:
+      tags:
+        - wishlist
+      summary: Xoá toàn bộ wishlist
+      description: Xoá toàn bộ wishlist của người dùng
+      responses:
+        200:
+          description: Xoá wishlist thành công
+        default:
+          description: Lỗi khác
+          content:
+            application/json:
+              schema:
+                $ref: "./components.yaml/#/components/schemas/Error"
+  /api/v1/store/private/wishlist/move-to-cart:
+    post:
+      tags:
+        - wishlist
+      summary: Di chuyển game từ wishlist sang giỏ hàng
+      description: Di chuyển game từ wishlist sang giỏ hàng của người dùng
+      parameters:
+        - name: gameId
+          in: query
+          required: true
+          schema:
+            type: integer
+      responses:
+        200:
+          description: Di chuyển game thành công
+        default:
+          description: Lỗi khác
+          content:
+            application/json:
+              schema:
+                $ref: "./components.yaml/#/components/schemas/Error"
+

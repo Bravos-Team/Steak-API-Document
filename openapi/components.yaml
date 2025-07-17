@@ -115,12 +115,12 @@ components:
     ImageUploadPresignResponse:
       type: object
       properties:
-          fileName:
-              type: string
-              example: 1q2w3e4r5t6y7u8i9o0p.jpg
-          signedUrl:
-            type: string
-            example: https://steak.io.vn/upload/1q2w3e4r5t6y7u8i9o0p.jpg
+        fileName:
+          type: string
+          example: 1q2w3e4r5t6y7u8i9o0p.jpg
+        signedUrl:
+          type: string
+          example: https://steak.io.vn/upload/1q2w3e4r5t6y7u8i9o0p.jpg
 
     ImageDeleteRequest:
       type: object
@@ -200,7 +200,7 @@ components:
           type: array
           items:
             type: string
-          example: ["Alice", "Bob"]
+          example: [ "Alice", "Bob" ]
         region:
           type: string
           example: US
@@ -221,7 +221,7 @@ components:
           type: array
           items:
             type: string
-          example: ["Windows", "Mac"]
+          example: [ "Windows", "Mac" ]
         systemRequirements:
           $ref: '#/components/schemas/SystemRequirements'
         internetConnection:
@@ -231,7 +231,7 @@ components:
           type: array
           items:
             type: string
-          example: ["en", "vi"]
+          example: [ "en", "vi" ]
         estimatedReleaseDate:
           type: string
           format: date-time
@@ -276,7 +276,7 @@ components:
           example: 123456789
         status:
           type: string
-          enum: [PENDING_REVIEW, ACCEPTED, REJECTED]
+          enum: [ PENDING_REVIEW, ACCEPTED, REJECTED ]
           example: ACCEPTED
         content:
           type: string
@@ -285,7 +285,7 @@ components:
           type: array
           items:
             type: string
-          example: ["https://cdn.steak.io.vn/review-attachment1.jpg"]
+          example: [ "https://cdn.steak.io.vn/review-attachment1.jpg" ]
     UpdatePreBuildRequest:
       type: object
       properties:
@@ -314,3 +314,48 @@ components:
         deviceInfo:
           type: string
           example: "ubuntu chrome browser"
+    CartResponse:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            type: object
+            properties:
+              gameId:
+                type: integer
+                example: 900000000000001
+              name:
+                type: string
+                example: "My Awesome Game"
+              price:
+                type: number
+                format: double
+                example: 19.99
+              thumbnail:
+                type: string
+                example: "https://cdn.steak.io.vn/thumbnail.jpg"
+        totalPrice:
+          type: number
+          format: double
+          example: 19.99
+    WishlistResponse:
+      type: array
+      items:
+        type: object
+        properties:
+          gameId:
+            type: integer
+            example: 900000000000001
+          name:
+            type: string
+            example: "My Awesome Game"
+          price:
+            type: number
+            format: double
+            example: 19.99
+          thumbnail:
+            type: string
+            example: "https://cdn.steak.io.vn/thumbnail.jpg"
+
+

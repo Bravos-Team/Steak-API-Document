@@ -27,6 +27,8 @@ tags:
     description: Quản lý giỏ hàng của người dùng
   - name: wishlist
     description: Quản lý wishlist của người dùng
+  - name: store
+    description: Các chức năng liên quan đến cửa hàng game
 paths:
   /api/v1/user/auth/register:
     post:
@@ -1006,6 +1008,37 @@ paths:
       responses:
         200:
           description: Di chuyển game thành công
+        default:
+          description: Lỗi khác
+          content:
+            application/json:
+              schema:
+                $ref: "./components.yaml/#/components/schemas/Error"
+  /api/v1/store/public/games/list:
+    get:
+      tags:
+        - store
+      summary: Lấy danh sách game công khai
+      description: Lấy danh sách game công khai trên cửa hàng, có thể lọc theo từ khoá, phân trang
+      parameters:
+        - name: cursor
+          in: query
+          required: false
+          schema:
+            type: integer
+        - name: pageSize
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 10
+      responses:
+        200:
+          description: Danh sách game công khai
+          content:
+            application/json:
+              schema:
+                type: object
         default:
           description: Lỗi khác
           content:

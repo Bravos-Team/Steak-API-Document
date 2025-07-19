@@ -29,6 +29,8 @@ tags:
     description: Quản lý wishlist của người dùng
   - name: store
     description: Các chức năng liên quan đến cửa hàng game
+  - name: payment
+    description: Các chức năng liên quan đến thanh toán game
 paths:
   /api/v1/user/auth/register:
     post:
@@ -1039,6 +1041,34 @@ paths:
             application/json:
               schema:
                 type: object
+        default:
+          description: Lỗi khác
+          content:
+            application/json:
+              schema:
+                $ref: "./components.yaml/#/components/schemas/Error"
+  /api/v1/store/private/order/create:
+    post:
+      tags:
+        - payment
+      summary: Tạo đơn hàng thanh toán
+      description: Tạo đơn hàng thanh toán cho game đã mua
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "./components.yaml/#/components/schemas/CreateOrderRequest"
+      responses:
+        200:
+          description: Tạo đơn hàng thành công
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  paymentUrl:
+                    type: string
+                    example: sandbox.vnpayment.vn/paymentv2/vpcpay.html?...
         default:
           description: Lỗi khác
           content:

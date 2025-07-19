@@ -357,6 +357,15 @@ components:
           thumbnail:
             type: string
             example: "https://cdn.steak.io.vn/thumbnail.jpg"
+    CreateOrderRequest:
+      type: object
+      properties:
+        gameIds:
+          type: array
+          items:
+            type: integer
+          example: [ 900000000000001, 900000000000002 ]
+
 
 
 

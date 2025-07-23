@@ -365,6 +365,56 @@ components:
           items:
             type: integer
           example: [ 900000000000001, 900000000000002 ]
+    CreateAccountRequest:
+      type: object
+      properties:
+        username:
+          type: string
+          minLength: 6
+          maxLength: 32
+          pattern: "^[a-zA-Z0-9]{6,32}$"
+          example: bravos123
+          description: Username cannot contain special characters and must be between 6 and 32 characters
+        email:
+          type: string
+          format: email
+          example: bravos@steak.vn
+        password:
+          type: string
+          minLength: 1
+          example: PassworD2@
+          description: Password cannot be blank
+        assignedRoles:
+          type: array
+          items:
+            type: integer
+            format: int64
+          example: [ 1, 2, 3 ]
+      required:
+        - username
+        - email
+        - password
+    CreateRoleRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          minLength: 1
+          example: "admin"
+          description: Role name cannot be blank
+        description:
+          type: string
+          example: "Administrator role with full permissions"
+        permissionIds:
+          type: array
+          items:
+            type: integer
+            format: int64
+          example: [ 1, 2, 3 ]
+      required:
+        - name
+
+
 
 
 

@@ -31,6 +31,8 @@ tags:
     description: Các chức năng liên quan đến cửa hàng game
   - name: payment
     description: Các chức năng liên quan đến thanh toán game
+  - name: dev-manager
+    description: Quản lý các chức năng của nhà phát hành game
 paths:
   /api/v1/user/auth/register:
     post:
@@ -818,7 +820,7 @@ paths:
       description: Lấy danh sách game đã mua của người dùng
       responses:
         200:
-            description: Danh sách game đã mua
+          description: Danh sách game đã mua
   /api/v1/store/public/cart/add:
     post:
       tags:
@@ -919,6 +921,22 @@ paths:
             application/json:
               schema:
                 $ref: "./components.yaml/#/components/schemas/Error"
+  /api/v1/store/public/cart/merge:
+    post:
+      tags:
+        - cart
+      summary: Hợp nhất giỏ hàng từ các thiết bị khác
+      description: Hợp nhất giỏ hàng từ các thiết bị khác của người dùng
+      responses:
+        200:
+          description: Hợp nhất giỏ hàng thành công
+        default:
+          description: Lỗi khác
+          content:
+            application/json:
+              schema:
+                $ref: "./components.yaml/#/components/schemas/Error"
+
   /api/v1/store/private/wishlist/add:
     post:
       tags:
@@ -1075,4 +1093,417 @@ paths:
             application/json:
               schema:
                 $ref: "./components.yaml/#/components/schemas/Error"
+
+  /api/v1/store/public/games/details:
+    get:
+      tags:
+        - store
+      summary: Lấy chi tiết thông tin game
+      description: Lấy chi tiết thông tin game theo ID
+      parameters:
+        - name: gameId
+          in: query
+          required: true
+          schema:
+            type: integer
+      responses:
+        200:
+          description: Thông tin game chi tiết
+          content:
+            application/json:
+              schema:
+                type: object
+        default:
+          description: Lỗi khác
+          content:
+            application/json:
+              schema:
+                $ref: "./components.yaml/#/components/schemas/Error"
+
+  /api/v1/dev/manager/accounts:
+    get:
+      tags:
+        - dev-manager
+      summary: Lấy danh sách tài khoản nhà phát hành
+      description: Lấy danh sách tài khoản nhà phát hành theo status
+      parameters:
+        - name: status
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [ACTIVE, SUSPENDED, BANNED, DELETED]
+        - name: page
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 1
+        - name: size
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 20
+      responses:
+        200:
+          description: Danh sách tài khoản nhà phát hành
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  accounts:
+                    type: array
+                    items:
+                      type: object
+        400:
+          description: Tham số phân trang không hợp lệ
+          content:
+            application/json:
+              schema:
+                $ref: "./components.yaml/#/components/schemas/Error"
+        default:
+          description: Lỗi khác
+          content:
+            application/json:
+              schema:
+                $ref: "./components.yaml/#/components/schemas/Error"
+  /api/v1/dev/manager/accounts/search:
+    get:
+      tags:
+        - dev-manager
+      summary: Tìm kiếm tài khoản nhà phát hành
+      description: Tìm kiếm tài khoản nhà phát hành theo từ khoá
+      parameters:
+        - name: keyword
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: status
+          in: query
+          required: false
+          schema:
+              type: string
+              enum: [ACTIVE, SUSPENDED, BANNED, DELETED]
+        - name: page
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 1
+        - name: size
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 20
+      responses:
+        200:
+          description: Danh sách tài khoản nhà phát hành tìm kiếm được
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  accounts:
+                    type: array
+                    items:
+                      type: object
+        400:
+          description: Tham số phân trang không hợp lệ
+          content:
+            application/json:
+              schema:
+                $ref: "./components.yaml/#/components/schemas/Error"
+        default:
+          description: Lỗi khác
+          content:
+            application/json:
+              schema:
+                $ref: "./components.yaml/#/components/schemas/Error"
+  /api/v1/dev/manager/permissions:
+    get:
+      tags:
+        - dev-manager
+      summary: Lấy danh sách quyền của nhà phát hành
+      description: Lấy danh sách quyền của nhà phát hành để phân quyền cho tài khoản
+      responses:
+        200:
+          description: Danh sách quyền của nhà phát hành
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  permissions:
+                    type: array
+                    items:
+                      type: string
+        default:
+          description: Lỗi khác
+          content:
+            application/json:
+              schema:
+                $ref: "./components.yaml/#/components/schemas/Error"
+  /api/v1/dev/manager/custom-roles:
+    get:
+      tags:
+        - dev-manager
+      summary: Lấy danh sách vai trò tuỳ chỉnh của nhà phát hành
+      description: Lấy danh sách vai trò tuỳ chỉnh đã tạo cho nhà phát hành
+      responses:
+        200:
+          description: Danh sách vai trò tuỳ chỉnh
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  roles:
+                    type: array
+                    items:
+                      type: object
+        default:
+          description: Lỗi khác
+          content:
+            application/json:
+              schema:
+                $ref: "./components.yaml/#/components/schemas/Error"
+  /api/v1/dev/manager/me:
+    get:
+      tags:
+        - dev-manager
+      summary: Lấy thông tin tài khoản nhà phát hành hiện tại
+      description: Lấy thông tin tài khoản nhà phát hành đã đăng nhập
+      responses:
+        200:
+          description: Thông tin tài khoản nhà phát hành
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  username:
+                    type: string
+                    example: publisher123
+                  email:
+                    type: string
+                    example:
+  /api/v1/dev/manager/account:
+    get:
+      tags:
+        - dev-manager
+      summary: Lấy thông tin tài khoản nhà phát hành theo ID
+      description: Lấy thông tin tài khoản nhà phát hành theo ID
+      parameters:
+        - name: accountId
+          in: query
+          required: true
+          schema:
+            type: integer
+      responses:
+        200:
+          description: Thông tin tài khoản nhà phát hành
+          content:
+            application/json:
+              schema:
+                type: object
+
+  /api/v1/dev/manager/role:
+    get:
+      tags:
+        - dev-manager
+      summary: Lấy thông tin vai trò tuỳ chỉnh theo ID
+      description: Lấy thông tin vai trò tuỳ chỉnh đã tạo cho nhà phát hành theo ID
+      parameters:
+        - name: roleId
+          in: query
+          required: true
+          schema:
+            type: integer
+      responses:
+        200:
+          description: Thông tin vai trò tuỳ chỉnh
+          content:
+            application/json:
+              schema:
+                type: object
+  /api/v1/dev/manager/create-account:
+    post:
+      tags:
+        - dev-manager
+      summary: Tạo tài khoản nhà phát hành mới
+      description: Tạo tài khoản nhà phát hành mới với các thông tin cơ bản
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "./components.yaml/#/components/schemas/CreateAccountRequest"
+      responses:
+        200:
+          description: Tạo tài khoản thành công
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  accountId:
+                    type: integer
+                    example: 1234567890
+        default:
+          description: Lỗi khác
+          content:
+            application/json:
+              schema:
+                $ref: "./components.yaml/#/components/schemas/Error"
+  /api/v1/dev/manager/delete-account:
+    delete:
+      tags:
+        - dev-manager
+      summary: Xoá tài khoản nhà phát hành
+      description: Xoá tài khoản nhà phát hành theo ID
+      parameters:
+        - name: accountId
+          in: query
+          required: true
+          schema:
+            type: integer
+      responses:
+        200:
+          description: Xoá tài khoản thành công
+        default:
+          description: Lỗi khác
+          content:
+            application/json:
+              schema:
+                $ref: "./components.yaml/#/components/schemas/Error"
+  /api/v1/dev/manager/role/create-role:
+    post:
+      tags:
+        - dev-manager
+      summary: Tạo vai trò tuỳ chỉnh mới
+      description: Tạo vai trò tuỳ chỉnh mới với các quyền đã chọn
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "./components.yaml/#/components/schemas/CreateRoleRequest"
+      responses:
+        200:
+          description: Tạo vai trò thành công
+          content:
+            application/json:
+              schema:
+                type: object
+        default:
+          description: Lỗi khác
+          content:
+            application/json:
+              schema:
+                $ref: "./components.yaml/#/components/schemas/Error"
+  /api/v1/dev/manager/role/update-role:
+    post:
+      tags:
+        - dev-manager
+      summary: Cập nhật vai trò tuỳ chỉnh
+      description: Cập nhật thông tin vai trò tuỳ chỉnh đã tạo cho nhà phát hành
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "./components.yaml/#/components/schemas/CreateRoleRequest"
+      responses:
+        200:
+          description: Cập nhật vai trò thành công
+          content:
+            application/json:
+              schema:
+                type: object
+        default:
+          description: Lỗi khác
+          content:
+            application/json:
+              schema:
+                $ref: "./components.yaml/#/components/schemas/Error"
+  /api/v1/dev/manager/role/change-status:
+    post:
+      tags:
+        - dev-manager
+      summary: Thay đổi trạng thái vai trò tuỳ chỉnh
+      description: Thay đổi trạng thái (kích hoạt, vô hiệu hoá) của vai trò tuỳ chỉnh
+      parameters:
+        - name: roleId
+          in: query
+          required: true
+          schema:
+            type: integer
+        - name: isActive
+          in: query
+          required: true
+          schema:
+            type: boolean
+      responses:
+        200:
+          description: Thay đổi trạng thái thành công
+        default:
+          description: Lỗi khác
+          content:
+            application/json:
+              schema:
+                $ref: "./components.yaml/#/components/schemas/Error"
+  /api/v1/dev/manager/role/detach-role:
+    post:
+      tags:
+        - dev-manager
+      summary: Tháo vai trò tuỳ chỉnh khỏi tài khoản
+      description: Tháo vai trò tuỳ chỉnh khỏi tài khoản nhà phát hành
+      parameters:
+        - name: roleId
+          in: query
+          required: true
+          schema:
+            type: integer
+        - name: accountId
+          in: query
+          required: true
+          schema:
+            type: integer
+      responses:
+        200:
+          description: Tháo vai trò thành công
+        default:
+          description: Lỗi khác
+          content:
+            application/json:
+              schema:
+                $ref: "./components.yaml/#/components/schemas/Error"
+  /api/v1/dev/manager/role/assign-role:
+    post:
+      tags:
+        - dev-manager
+      summary: Gán vai trò tuỳ chỉnh cho tài khoản
+      description: Gán vai trò tuỳ chỉnh cho tài khoản nhà phát hành
+      parameters:
+        - name: roleId
+          in: query
+          required: true
+          schema:
+            type: integer
+        - name: accountId
+          in: query
+          required: true
+          schema:
+            type: integer
+      responses:
+        200:
+          description: Tháo vai trò thành công
+        default:
+          description: Lỗi khác
+          content:
+            application/json:
+              schema:
+                $ref: "./components.yaml/#/components/schemas/Error"
+
 

@@ -413,6 +413,25 @@ components:
           example: [ 1, 2, 3 ]
       required:
         - name
+    GameDownloadResponse:
+      type: object
+      properties:
+        downloadUrl:
+          type: string
+          example: https://cdn.steak.io.vn/game/steak-v1.0.0.tar.zst
+        fileName:
+          type: string
+          example: steak-v1.0.0.tar.zst
+        execPath:
+          type: string
+          example: bin/steak.exe
+        checksum:
+          type: string
+          example: d41d8cd98f00b204e9800998ecf8427e
+        fileSize:
+          type: integer
+          format: int64
+          example: 104857600
 
 
 

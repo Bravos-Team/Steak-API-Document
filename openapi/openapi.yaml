@@ -1505,5 +1505,30 @@ paths:
             application/json:
               schema:
                 $ref: "./components.yaml/#/components/schemas/Error"
+  /api/v1/store/public/games/download/{gameId}:
+    get:
+      tags:
+        - store
+      summary: Download game
+      description: Download the game file by ID
+      parameters:
+        - name: gameId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        200:
+          description: Returns the game file for download
+          content:
+            application/json:
+              schema:
+                $ref: "./components.yaml/#/components/schemas/GameDownloadResponse"
+        default:
+          description: Other errors
+          content:
+            application/json:
+              schema:
+                $ref: "./components.yaml/#/components/schemas/Error"
 
 

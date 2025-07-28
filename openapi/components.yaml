@@ -432,6 +432,206 @@ components:
           type: integer
           format: int64
           example: 104857600
+    ResubmitProjectRequest:
+      type: object
+      properties:
+        submissionId:
+          type: integer
+          format: int64
+          example: 900000000000001
+        content:
+          type: string
+          example: "Updated project content for resubmission"
+        attachments:
+          type: array
+          items:
+            type: string
+          example: [ "https://cdn.steak.io.vn/attachment1.jpg" ]
+      required:
+        - submissionId
+    UpdateGameDetailsRequest:
+      type: object
+      properties:
+        gameId:
+          type: integer
+          format: int64
+          example: 900000000000001
+        title:
+          type: string
+          example: "My Awesome Game"
+        developerTeams:
+          type: array
+          items:
+            type: string
+          example: [ "Alice", "Bob" ]
+        regions:
+          type: array
+          items:
+            type: string
+          example: [ "US", "EU" ]
+        thumbnail:
+          type: string
+          example: https://cdn.steak.io.vn/thumbnail.jpg
+        media:
+          type: array
+          items:
+            $ref: '#/components/schemas/Media'
+        shortDescription:
+          type: string
+          example: "Short game description"
+        longDescription:
+          type: string
+          example: "Long game description"
+        platforms:
+          type: array
+          items:
+            type: string
+          example: [ "Windows", "Mac" ]
+        systemRequirements:
+          $ref: '#/components/schemas/SystemRequirements'
+        languageSupported:
+          type: array
+          items:
+            type: string
+          example: [ "en", "vi" ]
+        genres:
+          type: array
+          items:
+            type: integer
+          example: [ 1, 2, 3 ]
+        tags:
+          type: array
+          items:
+            type: integer
+          example: [ 10, 20 ]
+      required:
+        - gameId
+    UpdateGameStatusRequest:
+      type: object
+      properties:
+        gameId:
+          type: integer
+          format: int64
+          example: 900000000000001
+        status:
+          type: string
+          enum: [ OPENING,CLOSED,RETIRED ]
+          example: CLOSED
+      required:
+        - gameId
+        - status
+    UpdateGamePriceRequest:
+      type: object
+      properties:
+        gameId:
+          type: integer
+          format: int64
+          example: 900000000000001
+        price:
+          type: number
+          format: double
+          example: 19.99
+      required:
+        - gameId
+        - price
+    CreateNewVersionRequest:
+      type: object
+      properties:
+        gameId:
+          type: integer
+          format: int64
+          example: 900000000000001
+        versionName:
+          type: string
+          example: "v1.0.0"
+        isReady:
+          type: boolean
+          example: true
+        releaseDate:
+          type: integer
+          format: int64
+          example: 1719859200000
+        changeLog:
+          type: string
+          example: "Bug fixes and performance improvements"
+        execPath:
+          type: string
+          example: "bin/steak.exe"
+        downloadUrl:
+          type: string
+          pattern: "^(https?|ftp)://[^\\s/$.?#].\\S*$"
+          example: "https://cdn.steak.io.vn/game/steak-v1.0.0.zip"
+        checksum:
+          type: string
+          example: "d41d8cd98f00b204e9800998ecf8427e"
+        fileSize:
+          type: integer
+          format: int64
+          example: 104857600
+        installSize:
+          type: integer
+          format: int64
+          example: 209715200
+      required:
+        - gameId
+        - versionName
+        - execPath
+        - downloadUrl
+        - checksum
+        - fileSize
+        - installSize
+    UpdateDraftVersionRequest:
+      type: object
+      properties:
+        gameId:
+          type: integer
+          format: int64
+          example: 900000000000001
+        versionId:
+          type: integer
+          format: int64
+          example: 100000000000001
+        versionName:
+          type: string
+          example: "v1.0.1-beta"
+        changeLog:
+          type: string
+          example: "Added new features and fixed bugs"
+        isReady:
+          type: boolean
+          example: false
+        releaseDate:
+          type: integer
+          format: int64
+          example: 1719859200000
+        execPath:
+          type: string
+          example: "bin/steak.exe"
+        downloadUrl:
+          type: string
+          pattern: "^(https?|ftp)://[^\\s/$.?#].\\S*$"
+          example: "https://cdn.steak.io.vn/game/steak-v1.0.1-beta.zip"
+        checksum:
+          type: string
+          example: "d41d8cd98f00b204e9800998ecf8427e"
+        fileSize:
+          type: integer
+          format: int64
+          example: 104857600
+        installSize:
+          type: integer
+          format: int64
+          example: 209715200
+      required:
+        - gameId
+        - versionId
+        - versionName
+        - execPath
+        - downloadUrl
+        - checksum
+        - fileSize
+        - installSize
+
 
 
 

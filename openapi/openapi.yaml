@@ -33,6 +33,8 @@ tags:
     description: Các chức năng liên quan đến thanh toán game
   - name: dev-manager
     description: Quản lý các chức năng của nhà phát hành game
+  - name: publisher-game-management
+    description: Quản lý các chức năng liên quan đến game
 paths:
   /api/v1/user/auth/register:
     post:
@@ -1132,7 +1134,7 @@ paths:
           required: false
           schema:
             type: string
-            enum: [ACTIVE, SUSPENDED, BANNED, DELETED]
+            enum: [ ACTIVE, SUSPENDED, BANNED, DELETED ]
         - name: page
           in: query
           required: false
@@ -1185,8 +1187,8 @@ paths:
           in: query
           required: false
           schema:
-              type: string
-              enum: [ACTIVE, SUSPENDED, BANNED, DELETED]
+            type: string
+            enum: [ ACTIVE, SUSPENDED, BANNED, DELETED ]
         - name: page
           in: query
           required: false
@@ -1530,5 +1532,278 @@ paths:
             application/json:
               schema:
                 $ref: "./components.yaml/#/components/schemas/Error"
+  /api/v1/dev/project/resubmit:
+    post:
+      tags:
+        - publisher-project
+      summary: Gửi lại yêu cầu đăng game đã bị từ chối
+      description: Gửi lại yêu cầu đăng game đã bị từ chối trước đó
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "./components.yaml/#/components/schemas/ResubmitProjectRequest"
+      responses:
+        200:
+          description: Gửi lại yêu cầu thành công
+        400:
+          description: Project ID không hợp lệ hoặc không có quyền gửi lại
+          content:
+            application/json:
+              schema:
+                $ref: "./components.yaml/#/components/schemas/Error"
+        default:
+          description: Lỗi khác
+          content:
+            application/json:
+              schema:
+                $ref: "./components.yaml/#/components/schemas/Error"
+  /api/v1/dev/game-management/list:
+    get:
+      tags:
+        - publisher-game-management
+      summary: Lấy danh sách game đã đăng của publisher
+      description: Lấy danh sách game đã đăng của publisher, có thể lọc theo trạng thái
+      parameters:
+        - name: status
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: page
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 1
+        - name: size
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 20
+      responses:
+        200:
+          description: Danh sách game đã đăng của publisher
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  games:
+                    type: array
+                    items:
+                      type: object
+        400:
+          description: Tham số phân trang không hợp lệ
+          content:
+            application/json:
+              schema:
+                $ref: "./components.yaml/#/components/schemas/Error"
+        default:
+          description: Lỗi khác
+          content:
+            application/json:
+              schema:
+                $ref: "./components.yaml/#/components/schemas/Error"
+  /api/v1/dev/game-management/update-game-details:
+    post:
+      tags:
+        - publisher-game-management
+      summary: Cập nhật thông tin chi tiết game
+      description: Cập nhật thông tin chi tiết của game đã đăng
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "./components.yaml/#/components/schemas/UpdateGameDetailsRequest"
+      responses:
+        200:
+          description: Cập nhật thông tin game thành công
+        400:
+          description: Thông tin không hợp lệ hoặc không có quyền cập nhật
+          content:
+            application/json:
+              schema:
+                $ref: "./components.yaml/#/components/schemas/Error"
+        default:
+          description: Lỗi khác
+          content:
+            application/json:
+              schema:
+                $ref: "./components.yaml/#/components/schemas/Error"
+  /api/v1/dev/game-management/update-game-status:
+    post:
+      tags:
+        - publisher-game-management
+      summary: Cập nhật trạng thái game
+      description: Cập nhật trạng thái của game đã đăng ví dụ OPENING,CLOSED,RETIRED
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "./components.yaml/#/components/schemas/UpdateGameStatusRequest"
+      responses:
+        200:
+          description: Cập nhật trạng thái game thành công
+        400:
+          description: Thông tin không hợp lệ hoặc không có quyền cập nhật
+          content:
+            application/json:
+              schema:
+                $ref: "./components.yaml/#/components/schemas/Error"
+        default:
+          description: Lỗi khác
+          content:
+            application/json:
+              schema:
+                $ref: "./components.yaml/#/components/schemas/Error"
+  /api/v1/dev/game-management/update-game-price:
+    post:
+      tags:
+        - publisher-game-management
+      summary: Cập nhật giá game
+      description: Cập nhật giá của game đã đăng
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "./components.yaml/#/components/schemas/UpdateGamePriceRequest"
+      responses:
+        200:
+          description: Cập nhật giá game thành công
+        400:
+          description: Thông tin không hợp lệ hoặc không có quyền cập nhật
+          content:
+            application/json:
+              schema:
+                $ref: "./components.yaml/#/components/schemas/Error"
+        default:
+          description: Lỗi khác
+          content:
+            application/json:
+              schema:
+                $ref: "./components.yaml/#/components/schemas/Error"
+  /api/v1/dev/game-management/create-new-version:
+    post:
+      tags:
+        - publisher-game-management
+      summary: Tạo phiên bản game mới
+      description: Tạo phiên bản game mới cho game đã đăng
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "./components.yaml/#/components/schemas/CreateNewVersionRequest"
+      responses:
+        200:
+          description: Tạo phiên bản game mới thành công
+        400:
+          description: Thông tin không hợp lệ hoặc không có quyền tạo phiên bản mới
+          content:
+            application/json:
+              schema:
+                $ref: "./components.yaml/#/components/schemas/Error"
+        default:
+          description: Lỗi khác
+          content:
+            application/json:
+              schema:
+                $ref: "./components.yaml/#/components/schemas/Error"
+  /api/v1/dev/game-management/update-draft-version:
+    post:
+      tags:
+        - publisher-game-management
+      summary: Cập nhật phiên bản nháp của game
+      description: Cập nhật thông tin phiên bản nháp của game đã đăng
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "./components.yaml/#/components/schemas/UpdateDraftVersionRequest"
+      responses:
+        200:
+          description: Cập nhật phiên bản nháp thành công
+        400:
+          description: Thông tin không hợp lệ hoặc không có quyền cập nhật
+          content:
+            application/json:
+              schema:
+                $ref: "./components.yaml/#/components/schemas/Error"
+        default:
+          description: Lỗi khác
+          content:
+            application/json:
+              schema:
+                $ref: "./components.yaml/#/components/schemas/Error"
+  /api/v1/dev/game-management/delete-draft-version:
+    delete:
+      tags:
+        - publisher-game-management
+      summary: Xoá phiên bản nháp của game
+      description: Xoá phiên bản nháp của game đã đăng
+      parameters:
+        - name: gameId
+          in: query
+          required: true
+          schema:
+            type: integer
+        - name: versionId
+          in: query
+          required: true
+          schema:
+            type: integer
+  /api/v1/dev/game-management/mark-as-latest-stable:
+    post:
+      tags:
+        - publisher-game-management
+      summary: Đánh dấu phiên bản là phiên bản mới nhất
+      description: Đánh dấu phiên bản đã đăng là phiên bản mới nhất
+      parameters:
+        - name: gameId
+          in: query
+          required: true
+          schema:
+            type: integer
+        - name: versionId
+          in: query
+          required: true
+          schema:
+            type: integer
+      responses:
+        200:
+          description: Đánh dấu phiên bản thành công
+  /api/v1/dev/game-management/get-all-version:
+    get:
+      tags:
+        - publisher-game-management
+      summary: Lấy danh sách tất cả các phiên bản của game
+      description: Lấy danh sách tất cả các phiên bản đã đăng của game
+      parameters:
+        - name: gameId
+          in: query
+          required: true
+          schema:
+            type: integer
+      responses:
+        200:
+          description: Danh sách các phiên bản của game
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  versions:
+                    type: array
+                    items:
+                      type: object
+        default:
+          description: Lỗi khác
+          content:
+            application/json:
+              schema:
+                $ref: "./components.yaml/#/components/schemas/Error"
+
+
 
 

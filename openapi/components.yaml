@@ -631,6 +631,71 @@ components:
         - checksum
         - fileSize
         - installSize
+    UserProfileResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 900000000000001
+        displayName:
+          type: string
+          example: "QuocBaoDepTrai"
+        birthDate:
+          type: string
+          example: "1990-01-01"
+        sex:
+          type: boolean
+          example: true
+        avatarUrl:
+          type: string
+          example: "https://cdn.steak.io.vn/avatar.jpg"
+        bio:
+          type: string
+          example: "Game developer and steak lover."
+      required:
+        - id
+
+    PublisherProfileResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 900000000000001
+        name:
+          type: string
+          example: "Ubisuck"
+        email:
+          type: string
+          example: "steak@bravos.io.vn"
+        phone:
+          type: string
+          example: "0123456789"
+        status:
+          type: integer
+          enum: [ 0, 1, 2 ]
+          description: "0=UNVERIFIED, 1=VERIFIED, 2=SUSPENDED"
+          example: 0
+        logoUrl:
+          type: string
+          example: "https://cdn.steak.io.vn/logo.jpg"
+        createdAt:
+          type: integer
+          format: int64
+          example: 1719859200000
+        updatedAt:
+          type: integer
+          format: int64
+          example: 1719959200000
+      required:
+        - id
+        - name
+        - email
+        - status
+        - createdAt
+        - updatedAt
+
 
 
 

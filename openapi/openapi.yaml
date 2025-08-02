@@ -39,6 +39,12 @@ tags:
     description: Quản lý các chức năng liên quan đến game
   - name: publisher-public
     description: Các chức năng công khai của nhà phát hành game
+  - name: admin-user-management
+    description: Quản lý người dùng hệ thống
+  - name: admin-game-management
+    description: Quản lý game hệ thống
+  - name: admin-publisher-management
+    description: Quản lý nhà phát hành hệ thống
 paths:
   /api/v1/user/auth/register:
     post:
@@ -1906,3 +1912,361 @@ paths:
               schema:
                 $ref: "./components.yaml/#/components/schemas/Error"
 
+  /api/v1/admin/games:
+    get:
+      tags:
+        - admin-game-management
+      summary: Lấy danh sách game
+      description: Lấy danh sách game đã đăng trên hệ thống
+      parameters:
+        - name: page
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 1
+        - name: size
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 20
+      responses:
+        200:
+          description: Danh sách game đã đăng
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  games:
+                    type: array
+                    items:
+                      type: object
+        400:
+          description: Tham số phân trang không hợp lệ
+          content:
+            application/json:
+              schema:
+                $ref: "./components.yaml/#/components/schemas/Error"
+  /api/1/admin/games/search:
+    get:
+      tags:
+        - admin-game-management
+      summary: Tìm kiếm game
+      description: Tìm kiếm game theo từ khoá
+      parameters:
+        - name: keyword
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: page
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 1
+        - name: size
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 20
+      responses:
+        200:
+          description: Danh sách game tìm kiếm được
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  games:
+                    type: array
+                    items:
+                      type: object
+        400:
+          description: Tham số phân trang không hợp lệ
+          content:
+            application/json:
+              schema:
+                $ref: "./components.yaml/#/components/schemas/Error"
+        default:
+          description: Lỗi khác
+          content:
+            application/json:
+              schema:
+                $ref: "./components.yaml/#/components/schemas/Error"
+  /api/v1/admin/games/{gameId}/status:
+    post:
+      tags:
+        - admin-game-management
+      summary: Thay đổi trạng thái game
+      description: Thay đổi trạng thái của game đã đăng ví dụ OPENING,CLOSED,RETIRED,BANNED
+      parameters:
+        - name: gameId
+          in: path
+          required: true
+          schema:
+            type: integer
+        - name: status
+          in: query
+          required: true
+          schema:
+            type: string
+            enum: [ OPENING, CLOSED, RETIRED, BANNED ]
+      responses:
+        200:
+          description: Thay đổi trạng thái game thành công
+        400:
+          description: Thông tin không hợp lệ hoặc không có quyền thay đổi trạng thái
+          content:
+            application/json:
+              schema:
+                $ref: "./components.yaml/#/components/schemas/Error"
+        default:
+          description: Lỗi khác
+          content:
+            application/json:
+              schema:
+                $ref: "./components.yaml/#/components/schemas/Error"
+  /api/v1/admin/users:
+    get:
+      tags:
+        - admin-user-management
+      summary: Lấy danh sách người dùng
+      description: Lấy danh sách người dùng đã đăng trên hệ thống
+      parameters:
+        - name: page
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 1
+        - name: size
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 20
+      responses:
+        200:
+          description: Danh sách người dùng đã đăng
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  users:
+                    type: array
+                    items:
+                      type: object
+        400:
+          description: Tham số phân trang không hợp lệ
+          content:
+            application/json:
+              schema:
+                $ref: "./components.yaml/#/components/schemas/Error"
+
+  /api/v1/admin/users/search:
+    get:
+      tags:
+        - admin-user-management
+      summary: Tìm kiếm người dùng
+      description: Tìm kiếm người dùng theo từ khoá
+      parameters:
+        - name: keyword
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: page
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 1
+        - name: size
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 20
+      responses:
+        200:
+          description: Danh sách người dùng tìm kiếm được
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  users:
+                    type: array
+                    items:
+                      type: object
+        400:
+          description: Tham số phân trang không hợp lệ
+          content:
+            application/json:
+              schema:
+                $ref: "./components.yaml/#/components/schemas/Error"
+        default:
+          description: Lỗi khác
+          content:
+            application/json:
+              schema:
+                $ref: "./components.yaml/#/components/schemas/Error"
+
+  /api/v1/admin/users/{userId}/status:
+    post:
+      tags:
+        - admin-user-management
+      summary: Thay đổi trạng thái người dùng
+      description: Thay đổi trạng thái của người dùng, ví dụ ACTIVE, BANNED, DELETED
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: integer
+        - name: status
+          in: query
+          required: true
+          schema:
+            type: string
+            enum: [ ACTIVE, BANNED, DELETED ]
+      responses:
+        200:
+          description: Thay đổi trạng thái người dùng thành công
+        400:
+          description: Thông tin không hợp lệ hoặc không có quyền thay đổi trạng thái
+          content:
+            application/json:
+              schema:
+                $ref: "./components.yaml/#/components/schemas/Error"
+        default:
+          description: Lỗi khác
+          content:
+            application/json:
+              schema:
+                $ref: "./components.yaml/#/components/schemas/Error"
+  /api/v1/admin/publishers:
+    get:
+      tags:
+        - admin-publisher-management
+      summary: Lấy danh sách nhà phát hành
+      description: Lấy danh sách nhà phát hành đã đăng trên hệ thống
+      parameters:
+        - name: page
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 1
+        - name: size
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 20
+      responses:
+        200:
+          description: Danh sách nhà phát hành đã đăng
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  publishers:
+                    type: array
+                    items:
+                      type: object
+        400:
+          description: Tham số phân trang không hợp lệ
+          content:
+            application/json:
+              schema:
+                $ref: "./components.yaml/#/components/schemas/Error"
+
+  /api/v1/admin/publishers/search:
+    get:
+      tags:
+        - admin-publisher-management
+      summary: Tìm kiếm nhà phát hành
+      description: Tìm kiếm nhà phát hành theo từ khoá
+      parameters:
+        - name: keyword
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: page
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 1
+        - name: size
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 20
+      responses:
+        200:
+          description: Danh sách nhà phát hành tìm kiếm được
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  publishers:
+                    type: array
+                    items:
+                      type: object
+        400:
+          description: Tham số phân trang không hợp lệ
+          content:
+            application/json:
+              schema:
+                $ref: "./components.yaml/#/components/schemas/Error"
+        default:
+          description: Lỗi khác
+          content:
+            application/json:
+              schema:
+                $ref: "./components.yaml/#/components/schemas/Error"
+
+  /api/v1/admin/publishers/{publisherId}/status:
+    post:
+      tags:
+        - admin-publisher-management
+      summary: Thay đổi trạng thái nhà phát hành
+      description: Thay đổi trạng thái của nhà phát hành, ví dụ ACTIVE, BANNED, DELETED
+      parameters:
+        - name: publisherId
+          in: path
+          required: true
+          schema:
+            type: integer
+        - name: status
+          in: query
+          required: true
+          schema:
+            type: string
+            enum: [ ACTIVE, BANNED, DELETED ]
+      responses:
+        200:
+          description: Thay đổi trạng thái nhà phát hành thành công
+        400:
+          description: Thông tin không hợp lệ hoặc không có quyền thay đổi trạng thái
+          content:
+            application/json:
+              schema:
+                $ref: "./components.yaml/#/components/schemas/Error"
+        default:
+          description: Lỗi khác
+          content:
+            application/json:
+              schema:
+                $ref: "./components.yaml/#/components/schemas/Error"

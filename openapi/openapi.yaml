@@ -21,6 +21,10 @@ tags:
     description: Liên quan đến các chức năng của reviewer game
   - name: publisher-upload
     description: Upload tài nguyên cho publisher
+  - name: admin-upload
+    description: Upload tài nguyên cho quản trị viên hệ thống
+  - name: user-upload
+    description: Upload tài nguyên cho người dùng
   - name: publisher-project
     description: Quản lý project game của publisher
   - name: user-library
@@ -45,6 +49,7 @@ tags:
     description: Quản lý game hệ thống
   - name: admin-publisher-management
     description: Quản lý nhà phát hành hệ thống
+
 paths:
   /api/v1/user/auth/register:
     post:
@@ -2264,6 +2269,206 @@ paths:
             application/json:
               schema:
                 $ref: "./components.yaml/#/components/schemas/Error"
+        default:
+          description: Lỗi khác
+          content:
+            application/json:
+              schema:
+                $ref: "./components.yaml/#/components/schemas/Error"
+
+  /api/v1/admin/upload/presigned-upload-url:
+    post:
+      tags:
+        - admin-upload
+      summary: Lấy URL tải lên đã ký
+      description: Lấy URL tải lên đã ký để tải lên tệp lên dịch vụ lưu trữ
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "./components.yaml/#/components/schemas/ImageUploadPresignRequest"
+      responses:
+        200:
+          description: Trả về URL để upload ảnh
+          content:
+            application/json:
+              schema:
+                $ref: "./components.yaml/#/components/schemas/ImageUploadPresignResponse"
+        default:
+          description: Lỗi khác
+          content:
+            application/json:
+              schema:
+                $ref: "./components.yaml/#/components/schemas/Error"
+
+  /api/v1/admin/upload/presigned-upload-urls:
+    post:
+      tags:
+        - admin-upload
+      summary: Lấy nhiều URL tải lên đã ký
+      description: Lấy nhiều URL tải lên đã ký để tải lên nhiều tệp cùng lúc
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: "./components.yaml/#/components/schemas/ImageUploadPresignRequest"
+      responses:
+        200:
+          description: Trả về danh sách URL để upload ảnh
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  urls:
+                    type: array
+                    items:
+                      $ref: "./components.yaml/#/components/schemas/ImageUploadPresignResponse"
+        default:
+          description: Lỗi khác
+          content:
+            application/json:
+              schema:
+                $ref: "./components.yaml/#/components/schemas/Error"
+
+  /api/v1/admin/upload/delete-file:
+    delete:
+      tags:
+        - admin-upload
+      summary: Xoá tệp đã tải lên
+      description: Xoá tệp đã tải lên khỏi dịch vụ lưu trữ
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "./components.yaml/#/components/schemas/ImageDeleteRequest"
+      responses:
+        200:
+          description: Xoá tệp thành công
+        default:
+          description: Lỗi khác
+          content:
+            application/json:
+              schema:
+                $ref: "./components.yaml/#/components/schemas/Error"
+  /api/v1/admin/upload/delete-files:
+    delete:
+      tags:
+        - admin-upload
+      summary: Xoá nhiều tệp đã tải lên
+      description: Xoá nhiều tệp đã tải lên khỏi dịch vụ lưu trữ
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: "./components.yaml/#/components/schemas/ImageDeleteRequest"
+      responses:
+        200:
+          description: Xoá tệp thành công
+        default:
+          description: Lỗi khác
+          content:
+            application/json:
+              schema:
+                $ref: "./components.yaml/#/components/schemas/Error"
+  /api/v1/user/upload/presigned-upload-url:
+    post:
+      tags:
+        - user-upload
+      summary: Lấy URL tải lên đã ký cho người dùng
+      description: Lấy URL tải lên đã ký để người dùng tải lên tệp (ảnh, avatar, v.v.) lên dịch vụ lưu trữ
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "./components.yaml/#/components/schemas/ImageUploadPresignRequest"
+      responses:
+        200:
+          description: Trả về URL để người dùng upload tệp
+          content:
+            application/json:
+              schema:
+                $ref: "./components.yaml/#/components/schemas/ImageUploadPresignResponse"
+        default:
+          description: Lỗi khác
+          content:
+            application/json:
+              schema:
+                $ref: "./components.yaml/#/components/schemas/Error"
+
+  /api/v1/user/upload/presigned-upload-urls:
+    post:
+      tags:
+        - user-upload
+      summary: Lấy nhiều URL tải lên đã ký cho người dùng
+      description: Lấy nhiều URL tải lên đã ký để người dùng tải lên nhiều tệp cùng lúc
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: "./components.yaml/#/components/schemas/ImageUploadPresignRequest"
+      responses:
+        200:
+          description: Trả về danh sách URL để người dùng upload tệp
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  urls:
+                    type: array
+                    items:
+                      $ref: "./components.yaml/#/components/schemas/ImageUploadPresignResponse"
+        default:
+          description: Lỗi khác
+          content:
+            application/json:
+              schema:
+                $ref: "./components.yaml/#/components/schemas/Error"
+
+  /api/v1/user/upload/delete-file:
+    delete:
+      tags:
+        - user-upload
+      summary: Xoá tệp đã tải lên của người dùng
+      description: Xoá tệp đã tải lên khỏi dịch vụ lưu trữ dành cho người dùng
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "./components.yaml/#/components/schemas/ImageDeleteRequest"
+      responses:
+        200:
+          description: Xoá tệp thành công
+        default:
+          description: Lỗi khác
+          content:
+            application/json:
+              schema:
+                $ref: "./components.yaml/#/components/schemas/Error"
+
+  /api/v1/user/upload/delete-files:
+    delete:
+      tags:
+        - user-upload
+      summary: Xoá nhiều tệp đã tải lên của người dùng
+      description: Xoá nhiều tệp đã tải lên khỏi dịch vụ lưu trữ dành cho người dùng
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: "./components.yaml/#/components/schemas/ImageDeleteRequest"
+      responses:
+        200:
+          description: Xoá tệp thành công
         default:
           description: Lỗi khác
           content:

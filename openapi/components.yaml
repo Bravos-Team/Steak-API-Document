@@ -696,11 +696,43 @@ components:
         - createdAt
         - updatedAt
 
-
-
-
-
-
-
-
-
+    FilterQuery:
+      type: object
+      properties:
+        keyword:
+          type: string
+          description: Từ khóa tìm kiếm
+        genreIds:
+          type: array
+          items:
+            type: integer
+            format: int64
+          description: Danh sách genreId
+        tagIds:
+          type: array
+          items:
+            type: integer
+            format: int64
+          description: Danh sách tagId
+        minPrice:
+          type: number
+          format: double
+          description: Giá tối thiểu
+        maxPrice:
+          type: number
+          format: double
+          description: Giá tối đa
+        sortBy:
+          type: string
+          description: Trường sắp xếp
+        page:
+          type: integer
+          minimum: 1
+          default: 1
+          description: Trang, bắt đầu từ 1
+        pageSize:
+          type: integer
+          minimum: 1
+          default: 10
+          description: Số lượng trên mỗi trang
+      description: Tham số lọc và phân trang cho truy vấn danh sách

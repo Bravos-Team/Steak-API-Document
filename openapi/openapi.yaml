@@ -1082,6 +1082,7 @@ paths:
             application/json:
               schema:
                 $ref: "./components.yaml/#/components/schemas/Error"
+
   /api/v1/store/private/order/create:
     post:
       tags:
@@ -2469,6 +2470,203 @@ paths:
       responses:
         200:
           description: Xoá tệp thành công
+        default:
+          description: Lỗi khác
+          content:
+            application/json:
+              schema:
+                $ref: "./components.yaml/#/components/schemas/Error"
+
+  /api/v1/store/public/games/filter:
+    get:
+      tags:
+        - store
+      summary: Lọc game theo tiêu chí
+      description: Lọc danh sách game theo các tiêu chí như thể loại, giá, đánh giá, v.v.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "./components.yaml/#/components/schemas/FilterQuery"
+      responses:
+        200:
+          description: Xoá tệp thành công
+        default:
+          description: Lỗi khác
+          content:
+            application/json:
+              schema:
+                $ref: "./components.yaml/#/components/schemas/Error"
+  /api/v1/store/public/games/genres:
+    get:
+      tags:
+        - store
+      summary: Lấy danh sách thể loại game
+      description: Lấy danh sách tất cả các thể loại game có sẵn trên hệ thống
+      responses:
+        200:
+          description: Danh sách thể loại game
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  genres:
+                    type: array
+                    items:
+                      type: string
+        default:
+          description: Lỗi khác
+          content:
+            application/json:
+              schema:
+                $ref: "./components.yaml/#/components/schemas/Error"
+  /api/v1/store/public/games/tags:
+    get:
+        tags:
+          - store
+        summary: Lấy danh sách thẻ game
+        description: Lấy danh sách tất cả các thẻ game có sẵn trên hệ thống
+        responses:
+          200:
+            description: Danh sách thẻ game
+            content:
+              application/json:
+                type: object
+                properties:
+                  tags:
+                    type: array
+                    items:
+                      type: string
+          default:
+            description: Lỗi khác
+            content:
+              application/json:
+                schema:
+                  $ref: "./components.yaml/#/components/schemas/Error"
+  /api/v1/store/public/games/newest:
+    get:
+      tags:
+        - store
+      summary: Lấy danh sách game mới nhất
+      description: Lấy danh sách các game mới nhất được phát hành trên hệ thống
+      parameters:
+        - name: page
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 1
+        - name: size
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 20
+      responses:
+        200:
+          description: Danh sách game mới nhất
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  games:
+                    type: array
+                    items:
+                      type: object
+        400:
+          description: Tham số phân trang không hợp lệ
+          content:
+            application/json:
+              schema:
+                $ref: "./components.yaml/#/components/schemas/Error"
+        default:
+          description: Lỗi khác
+          content:
+            application/json:
+              schema:
+                $ref: "./components.yaml/#/components/schemas/Error"
+  /api/v1/store/public/games/coming-soon:
+    get:
+      tags:
+        - store
+      summary: Lấy danh sách game sắp ra mắt
+      description: Lấy danh sách các game sẽ ra mắt trong tương lai
+      parameters:
+        - name: page
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 1
+        - name: size
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 20
+      responses:
+        200:
+          description: Danh sách game sắp ra mắt
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  games:
+                    type: array
+                    items:
+                      type: object
+        400:
+          description: Tham số phân trang không hợp lệ
+          content:
+            application/json:
+              schema:
+                $ref: "./components.yaml/#/components/schemas/Error"
+        default:
+          description: Lỗi khác
+          content:
+            application/json:
+              schema:
+                $ref: "./components.yaml/#/components/schemas/Error"
+  /api/v1/store/public/games/top-played:
+    get:
+      tags:
+        - store
+      summary: Lấy danh sách game được chơi nhiều nhất
+      description: Lấy danh sách các game có số lượng người chơi cao nhất trên hệ thống
+      parameters:
+        - name: page
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 1
+        - name: size
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 20
+      responses:
+        200:
+          description: Danh sách game được chơi nhiều nhất
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  games:
+                    type: array
+                    items:
+                      type: object
+        400:
+          description: Tham số phân trang không hợp lệ
+          content:
+            application/json:
+              schema:
+                $ref: "./components.yaml/#/components/schemas/Error"
         default:
           description: Lỗi khác
           content:

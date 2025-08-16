@@ -695,7 +695,6 @@ components:
         - status
         - createdAt
         - updatedAt
-
     FilterQuery:
       type: object
       properties:
@@ -736,3 +735,38 @@ components:
           default: 10
           description: Số lượng trên mỗi trang
       description: Tham số lọc và phân trang cho truy vấn danh sách
+    Oauth2LoginRequest:
+      type: object
+      description: Đăng nhập bằng OAuth cho người dùng
+      properties:
+        provider:
+          type: string
+          minLength: 1
+          example: google
+          description: Provider không được để trống
+        code:
+          type: string
+          minLength: 1
+          example: "oauth-code-123"
+          description: Code không được để trống
+        state:
+          type: string
+          minLength: 1
+          example: "state-xyz"
+          description: State không được để trống
+        deviceId:
+          type: string
+          minLength: 1
+          example: "1q2w3whj4j3nk"
+          description: Device ID không được để trống
+        deviceInfo:
+          type: string
+          minLength: 1
+          example: "ubuntu chrome browser"
+          description: Device info không được để trống
+      required:
+        - provider
+        - code
+        - state
+        - deviceId
+        - deviceInfo

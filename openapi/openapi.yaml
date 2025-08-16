@@ -2673,3 +2673,49 @@ paths:
             application/json:
               schema:
                 $ref: "./components.yaml/#/components/schemas/Error"
+  /api/v1/user/auth/oauth2-state:
+    get:
+      tags:
+        - user-auth
+      summary: Lấy mã state OAuth2
+      description: Lấy mã state để sử dụng trong quá trình xác thực OAuth2
+      responses:
+        200:
+          description: Mã state OAuth2
+          content:
+            text/plain:
+              schema:
+                type: string
+        default:
+          description: Lỗi khác
+          content:
+            application/json:
+              schema:
+                $ref: "./components.yaml/#/components/schemas/Error"
+  /api/v1/user/auth/oauth2-login:
+    post:
+      tags:
+        - user-auth
+      summary: Xác thực người dùng qua OAuth2
+      description: Xác thực người dùng thông qua OAuth2 và trả về thông tin người dùng
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "./components.yaml/#/components/schemas/Oauth2LoginRequest"
+      responses:
+        200:
+          description: Xác thực thành công
+        400:
+          description: Thông tin không hợp lệ hoặc không có quyền truy cập
+          content:
+            application/json:
+              schema:
+                $ref: "./components.yaml/#/components/schemas/Error"
+        default:
+          description: Lỗi khác
+          content:
+            application/json:
+              schema:
+                $ref: "./components.yaml/#/components/schemas/Error"
+

@@ -2478,7 +2478,7 @@ paths:
                 $ref: "./components.yaml/#/components/schemas/Error"
 
   /api/v1/store/public/games/filter:
-    get:
+    post:
       tags:
         - store
       summary: Lọc game theo tiêu chí

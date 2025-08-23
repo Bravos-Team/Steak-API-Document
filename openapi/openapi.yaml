@@ -49,6 +49,8 @@ tags:
     description: Quản lý game hệ thống
   - name: admin-publisher-management
     description: Quản lý nhà phát hành hệ thống
+  - name: admin-statistics
+    description: Thống kê hệ thống
 
 paths:
   /api/v1/user/auth/register:
@@ -2673,6 +2675,100 @@ paths:
             application/json:
               schema:
                 $ref: "./components.yaml/#/components/schemas/Error"
+
+  /api/v1/store/public/games/daily-trending:
+    get:
+      tags:
+        - store
+      summary: Lấy danh sách game thịnh hành trong ngày
+      description: Lấy danh sách các game có xu hướng tăng cao về số lượng người chơi trong ngày
+      responses:
+        200:
+          description: Danh sách game thịnh hành trong ngày
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  games:
+                    type: array
+                    items:
+                      type: object
+        400:
+          description: Tham số phân trang không hợp lệ
+          content:
+            application/json:
+              schema:
+                $ref: "./components.yaml/#/components/schemas/Error"
+        default:
+          description: Lỗi khác
+          content:
+            application/json:
+              schema:
+                $ref: "./components.yaml/#/components/schemas/Error"
+
+  /api/v1/store/public/games/weekly-trending:
+    get:
+      tags:
+        - store
+      summary: Lấy danh sách game thịnh hành trong tuần
+      description: Lấy danh sách các game có xu hướng tăng cao về số lượng người chơi trong tuần
+      responses:
+        200:
+          description: Danh sách game thịnh hành trong tuần
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  games:
+                    type: array
+                    items:
+                      type: object
+        400:
+          description: Tham số phân trang không hợp lệ
+          content:
+            application/json:
+              schema:
+                $ref: "./components.yaml/#/components/schemas/Error"
+        default:
+          description: Lỗi khác
+          content:
+            application/json:
+              schema:
+                $ref: "./components.yaml/#/components/schemas/Error"
+
+  /api/v1/store/public/games/monthly-trending:
+    get:
+      tags:
+        - store
+      summary: Lấy danh sách game thịnh hành trong tháng
+      description: Lấy danh sách các game có xu hướng tăng cao về số lượng người chơi trong tháng
+      responses:
+        200:
+          description: Danh sách game thịnh hành trong tháng
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  games:
+                    type: array
+                    items:
+                      type: object
+        400:
+          description: Tham số phân trang không hợp lệ
+          content:
+            application/json:
+              schema:
+                $ref: "./components.yaml/#/components/schemas/Error"
+        default:
+          description: Lỗi khác
+          content:
+            application/json:
+              schema:
+                $ref: "./components.yaml/#/components/schemas/Error"
+
   /api/v1/user/auth/oauth2-state:
     get:
       tags:
@@ -2718,4 +2814,118 @@ paths:
             application/json:
               schema:
                 $ref: "./components.yaml/#/components/schemas/Error"
+  /api/v1/admin/statistics/yearly-revenue:
+    get:
+      tags:
+        - admin-statistics
+      summary: Lấy doanh thu hàng năm
+      description: Lấy doanh thu tổng hợp theo năm
+      responses:
+        200:
+          description: Doanh thu hàng năm
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  year:
+                    type: integer
+                  totalRevenue:
+                    type: number
+                    format: float
+        400:
+          description: Thông tin không hợp lệ hoặc không có quyền truy cập
+          content:
+            application/json:
+              schema:
+                $ref: "./components.yaml/#/components/schemas/Error"
+        default:
+          description: Lỗi khác
+          content:
+            application/json:
+              schema:
+                $ref: "./components.yaml/#/components/schemas/Error"
+  /api/v1/admin/statistics/monthly-revenue:
+    get:
+      tags:
+        - admin-statistics
+      summary: Lấy doanh thu hàng tháng
+      description: Lấy doanh thu tổng hợp theo tháng trong năm hiện tại
+      parameters:
+        - name: year
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 2025
+      responses:
+        200:
+          description: Doanh thu hàng tháng
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  month:
+                    type: integer
+                  totalRevenue:
+                    type: number
+                    format: float
+        400:
+          description: Thông tin không hợp lệ hoặc không có quyền truy cập
+          content:
+            application/json:
+              schema:
+                $ref: "./components.yaml/#/components/schemas/Error"
+        default:
+          description: Lỗi khác
+          content:
+            application/json:
+              schema:
+                $ref: "./components.yaml/#/components/schemas/Error"
+  /api/v1/admin/statistics/daily-revenue:
+    get:
+      tags:
+        - admin-statistics
+      summary: Lấy doanh thu hàng ngày
+      description: Lấy doanh thu tổng hợp theo ngày trong tháng hiện tại
+      parameters:
+        - name: year
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 2025
+        - name: month
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 6
+      responses:
+        200:
+          description: Doanh thu hàng ngày
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  day:
+                    type: integer
+                  totalRevenue:
+                    type: number
+                    format: float
+        400:
+          description: Thông tin không hợp lệ hoặc không có quyền truy cập
+          content:
+            application/json:
+              schema:
+                $ref: "./components.yaml/#/components/schemas/Error"
+        default:
+          description: Lỗi khác
+          content:
+            application/json:
+              schema:
+                $ref: "./components.yaml/#/components/schemas/Error"
+
 

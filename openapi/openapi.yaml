@@ -41,8 +41,6 @@ tags:
     description: Quản lý các chức năng của nhà phát hành game
   - name: publisher-game-management
     description: Quản lý các chức năng liên quan đến game
-  - name: publisher-public
-    description: Các chức năng công khai của nhà phát hành game
   - name: admin-user-management
     description: Quản lý người dùng hệ thống
   - name: admin-game-management
@@ -574,6 +572,36 @@ paths:
             application/json:
               schema:
                 $ref: "./components.yaml/#/components/schemas/Error"
+  /api/v1/dev/project/responses/{projectId}:
+    get:
+      tags:
+        - publisher-project
+      summary: Lấy thông tin phản hồi từ reviewer cho project game
+      description: Lấy thông tin phản hồi từ reviewer cho project game theo projectId
+      parameters:
+        - name: projectId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        200:
+          description: Thông tin phản hồi từ reviewer
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  responses:
+                    type: array
+                    items:
+                      type: object
+        default:
+          description: Lỗi khác
+          content:
+            application/json:
+              schema:
+                $ref: "./components.yaml/#/components/schemas/Error"
 
   /api/v1/dev/project/submit:
     post:
@@ -832,6 +860,8 @@ paths:
             application/json:
               schema:
                 $ref: "./components.yaml#/components/schemas/Error"
+
+
   /api/v1/store/private/library/my-games:
     get:
       tags:
